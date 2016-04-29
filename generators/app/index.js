@@ -10,7 +10,7 @@ module.exports = yeoman.Base.extend({
 
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the marvelous ' + chalk.red('ApptensionAngular') + ' generator!'
+      'Welcome to the marvelous ' + chalk.red('ApptensionReact') + ' generator!'
     ));
 
     var prompts = [{
