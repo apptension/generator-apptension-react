@@ -1,0 +1,40 @@
+{
+  "name": "generator-apptension-react",
+  "version": "0.7.1",
+  "description": "Apptension ReactJS Yeoman generator",
+  "license": "MIT",
+  "main": "app/index.js",
+  "repository": "apptension/generator-apptension-react",
+  "author": {
+    "name": "Apptension",
+    "email": "office@apptension.com",
+    "url": "https://github.com/apptension"
+  },
+  "scripts": {
+    "test": "mocha",
+    "release": "npm run release-patch",
+    "release-patch": "git checkout master; git commit -a -m 'Build dist/'; npm version patch && git push origin master --tags && npm publish",
+    "release-minor": "git checkout master; git commit -a -m 'Build dist/'; npm version minor && git push origin master --tags && npm publish",
+    "release-major": "git checkout master; git commit -a -m 'Build dist/'; npm version major && git push origin master --tags && npm publish"
+  },
+  "files": [
+    "generators"
+  ],
+  "keywords": [
+    "yeoman-generator",
+    "react",
+    "reactjs"
+  ],
+  "dependencies": {
+    "chalk": "^1.0.0",
+    "lodash": "^4.11.1",
+    "yeoman-generator": "^0.22.1",
+    "yosay": "^1.0.2"
+  },
+  "devDependencies": {
+    "eslint-config-apptension": "^1.0.9",
+    "mocha": "*",
+    "yeoman-assert": "^2.2.1",
+    "yeoman-test": "^1.1.0"
+  }
+}
