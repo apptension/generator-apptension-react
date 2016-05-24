@@ -1,19 +1,13 @@
 import {Component} from 'react';
-import {connect} from 'react-redux';
 
-import {exampleHomeRequest} from '../../actions';
-
-class Character extends Component {
+export class Home extends Component {
   componentWillMount() {
-    const {exampleHomeRequest} = this.props;
-    exampleHomeRequest();
+    this.props.exampleRequest();
   }
 
   render() {
     return (
       <div>
-        <h1>Welcome, to Apptension's React App!</h1>
-
         <p>Included libraries:</p>
 
         <ul>
@@ -29,7 +23,7 @@ class Character extends Component {
           To test the api we created example action and reducer.
 
           <br/>
-            
+
           {this.props.isLoading ? <span>Loading posts...</span> :
             <span>We downloaded {this.props.posts.length} posts for you, yay!</span>}
         </p>
@@ -37,15 +31,3 @@ class Character extends Component {
     );
   }
 }
-
-function mapStateToProps(state) {
-  return {
-    posts: state.home.posts,
-    isLoading: state.home.isLoading
-  };
-}
-
-export default connect(mapStateToProps, {
-  exampleHomeRequest
-})(Character);
-

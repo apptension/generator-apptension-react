@@ -1,9 +1,12 @@
 import {Component} from 'react';
 
-export default class App extends Component {
+import {Header} from './components/header.component';
+
+export class App extends Component {
   render() {
     return (
       <div>
+        <Header/>
         {this.props.children}
       </div>
     );

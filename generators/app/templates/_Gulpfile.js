@@ -1,15 +1,10 @@
 var gulp = require('gulp');
 var watch = require('gulp-watch');
 var runSequence = require('run-sequence');
-var NgAnnotatePlugin = require('ng-annotate-webpack-plugin');
-
 
 var tasks = require('apptension-tools/gulp')({
   domain: 'localhost',
   webpack: {
-    plugins: [
-      new NgAnnotatePlugin({add: true})
-    ],
     module: {
       loaders: [
         {test: /\.html$/, loader: 'html'}

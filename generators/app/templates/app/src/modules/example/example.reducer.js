@@ -1,22 +1,22 @@
-import {HOME_REQUEST, HOME_SUCCESS, HOME_FAILURE} from '../actions';
+import {EXAMPLE_REQUEST, EXAMPLE_SUCCESS, EXAMPLE_FAILURE} from './example.actions';
 
 const initialState = {
   posts: [],
   isLoading: false
 };
 
-export default function character(state = initialState, action = null) {
+export function exampleReducer(state = initialState, action = null) {
   switch (action.type) {
-    case HOME_REQUEST:
+    case EXAMPLE_REQUEST:
       return Object.assign({}, state, {
         isLoading: true
       });
-    case HOME_SUCCESS:
+    case EXAMPLE_SUCCESS:
       return Object.assign({}, state, {
         posts: action.payload,
         isLoading: false
       });
-    case HOME_FAILURE:
+    case EXAMPLE_FAILURE:
       return Object.assign({}, state, {
         isLoading: false
       });
