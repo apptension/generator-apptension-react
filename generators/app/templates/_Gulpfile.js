@@ -2,14 +2,30 @@ var gulp = require('gulp');
 var watch = require('gulp-watch');
 var runSequence = require('run-sequence');
 
+
 var tasks = require('apptension-tools/gulp')({
   domain: 'localhost',
-  webpack: {
-    module: {
-      loaders: [
-        {test: /\.html$/, loader: 'html'}
-      ]
+  karma: {
+    frameworks: ['mocha'],
+    client: {
+      mocha: {
+        ui: 'bdd'
+      }
     },
+    webpack: {
+      externals: {
+        'jsdom': 'window',
+        'react/lib/ReactContext': 'window',
+        'react/lib/ExecutionEnvironment': true,
+        'react/addons': true
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx', '.json']
+      }
+    },
+    browsers: ['Firefox']
+  },
+  webpack: {
     sassLoader: {
       includePaths: [
         require('bourbon').includePaths,
@@ -18,7 +34,8 @@ var tasks = require('apptension-tools/gulp')({
     }
   },
   webpackDevServer: {
-    historyApiFallback: true
+    historyApiFallback: true,
+    hot: true
   }
 });
 var env = tasks.env;

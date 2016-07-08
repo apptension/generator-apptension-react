@@ -1,10 +1,7 @@
-import {routerReducer} from 'react-router-redux';
-import {combineReducers} from 'redux';
+import {combineReducers} from 'redux-immutable';
 
-import {exampleReducer as example} from './example';
+import {routerReducer as routing} from './utils';
 
 export default combineReducers({
-  routing: routerReducer,
-  example
+  routing
 });
-

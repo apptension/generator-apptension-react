@@ -1,14 +1,9 @@
-import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-import {Header} from './components/header.component';
+import {App} from './app.component';
 
-export class App extends Component {
-  render() {
-    return (
-      <div>
-        <Header/>
-        {this.props.children}
-      </div>
-    );
-  }
+function mapStateToProps() {
+  return {};
 }
+
+export default connect(mapStateToProps, {})(App);

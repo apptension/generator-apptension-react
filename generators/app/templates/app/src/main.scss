@@ -1,5 +1,10 @@
-@import 'generated/sprites';
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+@import 'bourbon';
+@import 'neat';
+@import "~normalize-scss";
+@import "generated/sprites";
+@import "variables";
+@import "charts/charts";
 
-body {
-  background: white;
-}
+@include normalize();
+

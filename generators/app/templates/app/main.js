@@ -1,34 +1,71 @@
 import './src/main.scss';
 
 import 'babel-polyfill';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
+import {Router, browserHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import {Provider} from 'react-redux';
 
-import App from './src/components/App/App';
-import HomePage from './src/components/HomePage/HomePage';
-import DevTools from './src/components/DevTools';
-import configureStore from './src/store/configureStore';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-window.React = React;
+import configureStore from './src/modules/configureStore';
+import {IntlProvider, addLocaleData} from './src/modules/utils';
+import routes from './src/routes';
 
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
-const reactRoot = window.document.getElementById('react-root');
 
-ReactDOM.render(
-  <Provider store={store}>
-    <div>
-      <Router history={history}>
-        <Route path="/" component={App}>
-          <IndexRoute component={HomePage}/>
-        </Route>
-      </Router>
+function startApp() {
+  // Needed for onTouchTap
+  // Check this repo:
+  // https://github.com/zilverline/react-tap-event-plugin
+  injectTapEventPlugin();
 
-      <DevTools />
-    </div>
-  </Provider>,
-  reactRoot
-);
+  // add to React-Intl locale data
+  addLocaleData();
+
+  const store = configureStore();
+  const syncedBrowserHistory = syncHistoryWithStore(browserHistory, store, {
+    selectLocationState(state) {
+      return state.get('routing').toJS();
+    }
+  });
+
+  const reactRoot = window.document.getElementById('react-root');
+
+  if (__DEBUG__) {
+    let DevToolsComponent = require('src/widgets/devtools/devTools.component');
+    const devToolsRoot = window.document.createElement('div');
+
+    window.document.body.appendChild(devToolsRoot);
+
+    ReactDOM.render(
+      <Provider store={store}>
+        <DevToolsComponent/>
+      </Provider>,
+      devToolsRoot
+    );
+  }
+
+  ReactDOM.render(
+    <Provider store={store}>
+      <IntlProvider locale="en">
+        <Router history={syncedBrowserHistory} routes={routes}/>
+      </IntlProvider>
+    </Provider>,
+    reactRoot
+  );
+}
+
+if (!global.Intl) {
+  require.ensure([
+    'intl',
+    'intl/locale-data/jsonp/en.js'
+  ], function (require) {
+    require('intl');
+    require('intl/locale-data/jsonp/en.js');
+    startApp();
+  });
+} else {
+  startApp();
+}
