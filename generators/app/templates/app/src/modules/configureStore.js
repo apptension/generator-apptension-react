@@ -5,23 +5,19 @@ import {routerMiddleware} from 'react-router-redux';
 import {browserHistory} from 'react-router';
 import {apiMiddleware} from 'redux-api-middleware';
 import {fromJS, Map} from 'immutable';
-import persistState from 'redux-localstorage';
 
 import reducers from './reducers';
+import {apiErrorResponseMiddleware} from './api/apiErrorResponse.middleware';
+import {analyticsMiddleware} from './analytics';
 
 const middleware = [
   thunk,
   apiMiddleware,
-  routerMiddleware(browserHistory)
+  routerMiddleware(browserHistory),
+  analyticsMiddleware,
+  apiErrorResponseMiddleware
 ];
 const storeEnhancers = [];
-
-const persistConfig = Object.freeze({
-  slicer: (paths) => (state) => state.filter((val, key) => paths.indexOf(key) > -1),
-  serialize: (subset) => JSON.stringify(subset.toJS()),
-  deserialize: (serializedData) => fromJS(JSON.parse(serializedData)),
-  merge: (initialState, persistedState) => initialState.mergeDeep(persistedState)
-});
 
 if (__DEBUG__) {
   let {persistState} = require('redux-devtools');
@@ -43,7 +39,6 @@ export default function configureStore() {
     reducers,
     Map(),
     compose(
-      persistState(['user'], persistConfig),
       applyMiddleware(...middleware),
       ...storeEnhancers
     )

@@ -7,13 +7,14 @@ import ReactDOM from 'react-dom';
 import {Router, browserHistory} from 'react-router';
 import {syncHistoryWithStore} from 'react-router-redux';
 import {Provider} from 'react-redux';
+import ReactGA from 'react-ga';
+import envConfig from 'env-config';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 import configureStore from './src/modules/configureStore';
 import {IntlProvider, addLocaleData} from './src/modules/utils';
 import routes from './src/routes';
-
 
 function startApp() {
   // Needed for onTouchTap
@@ -25,6 +26,14 @@ function startApp() {
   addLocaleData();
 
   const store = configureStore();
+
+  ReactGA.initialize(envConfig.googleAnalytics.clientID, {
+    ...envConfig.googleAnalytics.options,
+    gaOptions: {
+      userId: store.getState().getIn(['user', 'data', 'id'], null)
+    }
+  });
+
   const syncedBrowserHistory = syncHistoryWithStore(browserHistory, store, {
     selectLocationState(state) {
       return state.get('routing').toJS();

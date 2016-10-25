@@ -51,16 +51,12 @@ describe('apptension angular:app', function () {
 
   describe('gulpfile', function () {
     it('is created', function () {
-      assert.file('Gulpfile.js');
+      assert.file('webpack.config.babel.js');
     });
   });
 
   it('creates .gitignore', function () {
     assert.file('.gitignore');
-  });
-
-  it('creates protractor.conf', function () {
-    assert.file('protractor.conf');
   });
 
   it('creates .babelrc', function () {
@@ -74,6 +70,42 @@ describe('apptension angular:app', function () {
 
     it('main.scss file is created', function () {
       assert.file('app/src/main.scss');
+    });
+  });
+
+  describe('config', function () {
+    it('webpack/webpack-dev.config.babel.js file is created', function () {
+      assert.file('config/webpack/webpack-dev.config.babel.js');
+    });
+
+    it('webpack/webpack-dev-opt.config.babel.js file is created', function () {
+      assert.file('config/webpack/webpack-dev-opt.config.babel.js');
+    });
+
+    it('webpack/webpack-prod.config.babel.js file is created', function () {
+      assert.file('config/webpack/webpack-prod.config.babel.js');
+    });
+
+    it('env/development.js file is created', function () {
+      assert.file('config/env/development.js');
+    });
+
+    it('env/developmentOptimized.js file is created', function () {
+      assert.file('config/env/developmentOptimized.js');
+    });
+
+    it('env/production.js file is created', function () {
+      assert.file('config/env/production.js');
+    });
+  });
+
+  describe('bin', function () {
+    it('startDevServer file is created', function () {
+      assert.file('bin/startDevServer.js');
+    });
+
+    it('startOptimizedDevServer file is created', function () {
+      assert.file('bin/startOptimizedDevServer.js');
     });
   });
 });

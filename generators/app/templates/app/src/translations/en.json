@@ -1,7 +1,3 @@
 {
-  "app": {
-    "welcome": {
-      "title": "Welcome to Apptension React!"
-    }
-  }
+  "someMsg": "Hello, World!"
 }

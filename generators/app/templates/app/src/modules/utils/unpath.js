@@ -1,4 +1,7 @@
-import {reduce, isObject, isObjectLike, isEmpty} from 'lodash';
+import reduce from 'lodash/reduce';
+import isObject from 'lodash/isObject';
+import isObjectLike from 'lodash/isObjectLike';
+import isEmpty from 'lodash/isEmpty';
 
 /**
  * Function that makes plain object from nested object.

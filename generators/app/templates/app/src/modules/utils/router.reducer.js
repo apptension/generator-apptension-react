@@ -2,17 +2,17 @@ import {fromJS} from 'immutable';
 import {
   LOCATION_CHANGE
 } from 'react-router-redux';
+import createReducer from 'create-reducer';
 
 const initialState = fromJS({
   locationBeforeTransitions: null
 });
 
-export function routerReducer(state = initialState, action) {
-  if (action.type === LOCATION_CHANGE) {
+export const routerReducer = createReducer(initialState, {
+  [LOCATION_CHANGE](state, {payload}) {
     return state.merge({
-      locationBeforeTransitions: action.payload
+      locationBeforeTransitions: payload
     });
   }
+});
 
-  return state;
-}

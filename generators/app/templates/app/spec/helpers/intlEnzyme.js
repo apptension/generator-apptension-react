@@ -6,10 +6,11 @@
  */
 
 import React from 'react';
-import {IntlProvider} from 'react-intl';
+import {IntlProvider, intlShape} from 'react-intl';
+import {mount, shallow} from 'enzyme';
 
 // You can pass your messages to the IntlProvider. Optional: remove if unneeded.
-import en from '../src/translations/en.json';
+import en from '../../src/translations/en.json';
 import {unpath} from '../src/modules/utils';
 const messages = unpath(en);
 
@@ -20,6 +21,33 @@ const {intl} = intlProvider.getChildContext();
 /**
  * When using React-Intl `injectIntl` on components, props.intl is required.
  */
-export function nodeWithIntlProp(node) {
+export function injectIntlProp(node) {
   return React.cloneElement(node, {intl});
+}
+
+export function shallowWithIntl(node, options = {}) {
+  return shallow(
+    injectIntlProp(node),
+    {
+      ...options,
+      context: {
+        intl,
+        ...options.context
+      }
+    }
+  );
+}
+
+export function mountWithIntl(element, options = {}) {
+  return mount(injectIntlProp(element), {
+    ...options,
+    context: {
+      intl,
+      ...options.context
+    },
+    childContextTypes: {
+      intl: intlShape,
+      ...options.childContextTypes
+    }
+  });
 }

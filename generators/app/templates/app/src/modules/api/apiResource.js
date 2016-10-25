@@ -1,4 +1,5 @@
 import url from 'url';
+import isEmpty from 'lodash/isEmpty';
 
 export class APIResource {
   constructor({name, baseURL}) {
@@ -18,9 +19,13 @@ export class APIResource {
     this.delete = this.requestMethodFactory('delete');
   }
 
-  request(path, options) {
+  getSanitizedPath(path) {
     const sanitizedPath = path.replace(/^\//, '');
-    const parsedURL = url.parse(`${this.baseURL}/${this.name}/${sanitizedPath}`);
+    return isEmpty(sanitizedPath) ? '' : `/${sanitizedPath}`;
+  }
+
+  request(path, options, {json = true} = {}) {
+    const parsedURL = url.parse(`${this.baseURL}/${this.name}${this.getSanitizedPath(path)}`);
     const endpoint = url.format({
       ...parsedURL,
       query: options.query || {},
@@ -28,34 +33,43 @@ export class APIResource {
     });
 
     const headers = (state) => {
-      const headers = {
-        ...options.headers,
-        'Content-Type': 'application/json'
-      };
+      const headers = {...options.headers};
       const authToken = state.getIn(['user', 'authToken']);
 
       if (authToken) {
         headers.Authorization = `Token ${authToken}`;
       }
 
+      if (json) {
+        headers['Content-Type'] = 'application/json';
+      }
+
       return headers;
     };
+
+    const getBody = () => {
+      if (!json) {
+        return options.body;
+      }
+      return options.body ? JSON.stringify(options.body) : undefined;
+    };
+
 
     return {
       ...options,
       endpoint,
       headers,
-      body: options.body ? JSON.stringify(options.body) : undefined,
+      body: getBody(),
       credentials: 'same-origin'
     };
   }
 
   requestMethodFactory(method) {
-    return (path, options) => {
+    return (path, options, ...rest) => {
       return this.request(path, {
         ...options,
         method: method
-      });
+      }, ...rest);
     };
   }
 }

@@ -18,11 +18,11 @@ module.exports = yeoman.Base.extend({
       name: 'appName',
       message: 'Your project name',
       default: this.appname
-    },{
+    }, {
       type: 'input',
       name: 'author',
       message: 'Author name'
-    },{
+    }, {
       type: 'input',
       name: 'license',
       message: 'Your project license',
@@ -45,13 +45,22 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('package.json'),
         this.props
       );
+      this.template(
+        this.templatePath('_webpack.config.babel.js'),
+        this.destinationPath('webpack.config.babel.js'),
+        this.props
+      );
       this.directory(
         this.templatePath('app'),
         this.destinationPath('app')
       );
       this.directory(
-        this.templatePath('specE2E'),
-        this.destinationPath('specE2E')
+        this.templatePath('config'),
+        this.destinationPath('config')
+      );
+      this.directory(
+        this.templatePath('bin'),
+        this.destinationPath('bin')
       );
     },
 
@@ -65,16 +74,8 @@ module.exports = yeoman.Base.extend({
         this.destinationPath('.eslintrc')
       );
       this.fs.copy(
-        this.templatePath('_Gulpfile.js'),
-        this.destinationPath('Gulpfile.js')
-      );
-      this.fs.copy(
         this.templatePath('gitignore'),
         this.destinationPath('.gitignore')
-      );
-      this.fs.copy(
-        this.templatePath('_protractor.conf'),
-        this.destinationPath('protractor.conf')
       );
       this.fs.copy(
         this.templatePath('babelrc'),

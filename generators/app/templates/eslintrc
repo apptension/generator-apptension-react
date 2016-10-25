@@ -6,7 +6,8 @@
   "rules": {
     "react/jsx-uses-vars": 1,
     "react/jsx-uses-react": 1,
-    "react/react-in-jsx-scope": 2
+    "react/react-in-jsx-scope": 2,
+    "new-cap": 0
   },
   "ecmaFeatures": {
     "jsx": true
