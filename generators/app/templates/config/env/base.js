@@ -3,6 +3,7 @@ export default {
     domain: 'localhost',
     port: 8000,
     historyApiFallback: true,
+    hot: true,
     stats: {
       colors: true,
       hash: false,
